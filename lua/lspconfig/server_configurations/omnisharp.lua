@@ -42,6 +42,10 @@ return {
       return util.root_pattern '*.sln'(fname) or util.root_pattern '*.csproj'(fname)
     end,
     on_new_config = function(new_config, new_root_dir)
+      if not new_root_dir then
+        return
+      end
+      
       table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
       vim.list_extend(new_config.cmd, { '-s', new_root_dir })
       vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
